@@ -8,6 +8,7 @@ public class BallBewegung : MonoBehaviour {
 
     public GameObject Spieler1;
     public GameObject Spieler2;
+    public float acceleration = 2f;
 
 	// Use this for initialization
 	void Start () {
@@ -38,57 +39,46 @@ public class BallBewegung : MonoBehaviour {
 
     IEnumerator Pause() {
 
-        int directionX = Random.Range(-1, 2);
-        int directionyY = Random.Range(-1, 2);
+        float directionX = Random.Range(-1f, 1f);
+        float directionyY = Random.Range(-1f, 1f);
 
         
 
         if (directionX == 0) {
             directionX = 1;
-
         }
 
 
         rb.velocity = new Vector2(0f, 0f);
         yield return new WaitForSeconds(2);
-        rb.velocity = new Vector2(12f * directionX, 8f * directionyY);
+        rb.velocity = new Vector2(12 * directionX, 8f * directionyY);
     }
+
 
      void OnCollisionEnter2D (Collision2D hit)
     {
         
-        if(hit.gameObject.name == "Spieler 1")
-        {
-            if(Spieler1.GetComponent<Rigidbody2D> ().velocity.y > 0.5f) 
+        if(hit.gameObject.tag == "Spieler")
+        {    
+            if (hit.gameObject.GetComponent<Rigidbody2D>().velocity.y > 0.5f)
             {
-                rb.velocity = new Vector2(8f, 8f);
-
-            }else if (Spieler1.GetComponent<Rigidbody2D> ().velocity.y < -0.5) {
-
-                rb.velocity = new Vector2(8f, -8f);
-
-            }else {
-
-                rb.velocity = new Vector2(12f, 0f);
-
+                if (this.transform.position.x < 0) rb.velocity = new Vector2(Mathf.Abs(rb.velocity.x), 8f);
+                else rb.velocity = new Vector2(-Mathf.Abs(rb.velocity.x), 8f);
             }
+            else if (hit.gameObject.GetComponent<Rigidbody2D>().velocity.y < -0.5)
+            {                
+                if (this.transform.position.x < 0) rb.velocity = new Vector2(Mathf.Abs(rb.velocity.x), -8f);
+                else rb.velocity = new Vector2(-Mathf.Abs(rb.velocity.x), -8f);
+            }
+            else
+            {
+                if (this.transform.position.x < 0) rb.velocity = new Vector2(Mathf.Abs(rb.velocity.x), 0f);
+                else rb.velocity = new Vector2(-Mathf.Abs(rb.velocity.x), 0f);
+            }
+            acceleration += 0.2f;
         }
 
-        if (hit.gameObject.name == "Spieler 2")
-        {
-            if (Spieler2.GetComponent<Rigidbody2D>().velocity.y > 0.5f) 
-            {
-                rb.velocity = new Vector2(-8f, 8f);
+        
 
-            }else if (Spieler2.GetComponent<Rigidbody2D>().velocity.y < -0.5) {
-
-                rb.velocity = new Vector2(-8f, -8f);
-
-            }else {
-
-                rb.velocity = new Vector2(-12f, 0f);
-
-            }
-        }
     }
 }
