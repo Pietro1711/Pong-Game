@@ -6,5 +6,9 @@ using System;
 public enum NvpGameEvents 
 {
     OnDebugMsg,
-    OnMainStarted
+    OnMainStarted,
+    OnGameStarted,
+    OnPlayerOneWins,
+    OnPlayerTwoWins,
+    OnPlayAgain
 }

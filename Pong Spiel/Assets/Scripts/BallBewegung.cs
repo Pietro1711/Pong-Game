@@ -38,20 +38,22 @@ public class BallBewegung : MonoBehaviour {
 	}
 
     IEnumerator Pause() {
-
         float directionX = Random.Range(-1f, 1f);
-        float directionyY = Random.Range(-1f, 1f);
+        Vector3 temp = new Vector3(
+            directionX,
+            directionX / Random.Range(1f, 3f) * Mathf.Sign(Random.value-0.5f),
+            0f).normalized;
 
         
 
-        if (directionX == 0) {
-            directionX = 1;
+        if (temp.x == 0) {
+            temp.x = 1;
         }
 
 
         rb.velocity = new Vector2(0f, 0f);
         yield return new WaitForSeconds(2);
-        rb.velocity = new Vector2(12 * directionX, 8f * directionyY);
+        rb.velocity = new Vector2(12 * temp.x, 8f * temp.y);
     }
 
 

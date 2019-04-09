@@ -37,13 +37,15 @@ public class Punktezähler : MonoBehaviour {
             
         }
 
-        if(Spieler1Punkte >= 7)
+        if(Spieler1Punkte >= 1)
         {
-            SceneManager.LoadScene(2);
+            //SceneManager.LoadScene(2);
+            NvpEventController.InvokeEvent(NvpGameEvents.OnPlayerOneWins, this, null);
         }
-        if(Spieler2Punkte >= 7)
+        if(Spieler2Punkte >= 1)
         {
-            SceneManager.LoadScene(3);
+            //SceneManager.LoadScene(3);
+            NvpEventController.InvokeEvent(NvpGameEvents.OnPlayerTwoWins, this, null);
         }
 
 
